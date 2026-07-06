@@ -1,0 +1,315 @@
+<style>
+  :root{
+    --cream:#FAF9F5; --cream-2:#F3F0E8; --card:#FEFDFB;
+    --ink:#262117; --ink-2:#6F6857; --faint:#9A9384;
+    --clay:#BE5A38; --clay-deep:#9E4626; --clay-tint:rgba(190,90,56,.09);
+    --sage:#5E7F55; --sage-tint:rgba(94,127,85,.10);
+    --line:#E7E1D4; --line-2:#EFEADE;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--sans);
+    line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 26px}
+  h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.1;text-wrap:balance;margin:0;
+    letter-spacing:-.01em}
+  p{margin:0}
+  a{color:var(--clay-deep)}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--clay);font-weight:500}
+  .fade{opacity:0;transform:translateY(14px);animation:up .7s cubic-bezier(.2,.7,.3,1) forwards}
+  .fade.d1{animation-delay:.08s}.fade.d2{animation-delay:.16s}.fade.d3{animation-delay:.24s}
+  @keyframes up{to{opacity:1;transform:none}}
+
+  /* hero */
+  .hero{padding:78px 0 34px;text-align:center}
+  .hero .eyebrow{margin-bottom:20px}
+  .hero h1{font-size:clamp(36px,5.6vw,60px)}
+  .hero h1 .u{color:var(--clay);font-style:italic}
+  .hero .sub{max-width:60ch;margin:24px auto 0;font-size:clamp(16px,2vw,19px);color:var(--ink-2)}
+  .hero .cue{margin-top:30px;font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;
+    color:var(--faint);display:inline-flex;align-items:center;gap:9px}
+  .hero .cue .arrow{animation:bob 1.8s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+
+  /* demo */
+  .demo-sec{padding:22px 0 60px}
+  .picker-lbl{text-align:center;font-size:15px;color:var(--ink-2);margin-bottom:16px}
+  .picker{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:26px}
+  .biz{display:inline-flex;align-items:center;gap:9px;font-size:15px;font-family:var(--sans);
+    color:var(--ink);background:var(--card);border:1px solid var(--line);padding:10px 16px;
+    border-radius:100px;cursor:pointer;transition:.18s;font-weight:500}
+  .biz:hover{border-color:var(--clay);transform:translateY(-1px)}
+  .biz .e{font-size:18px}
+  .biz.on{background:var(--clay);border-color:var(--clay);color:#fff;box-shadow:0 8px 22px -12px var(--clay)}
+
+  .chat{max-width:660px;margin:0 auto;background:var(--card);border:1px solid var(--line);
+    border-radius:22px;overflow:hidden;box-shadow:0 40px 80px -50px rgba(60,40,20,.4)}
+  .chat-top{display:flex;align-items:center;gap:13px;padding:18px 22px;border-bottom:1px solid var(--line-2);
+    background:linear-gradient(180deg,#fff,var(--card))}
+  .chat-top .ava{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:22px;
+    background:var(--clay-tint);border:1px solid var(--line)}
+  .chat-top .nm{font-weight:650;font-size:16px}
+  .chat-top .role{font-size:12.5px;color:var(--ink-2);font-family:var(--mono)}
+  .chat-top .status{margin-left:auto;font-family:var(--mono);font-size:11px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--sage);display:flex;align-items:center;gap:7px}
+  .chat-top .status i{width:7px;height:7px;border-radius:50%;background:var(--sage)}
+  .thread{padding:24px 22px;display:flex;flex-direction:column;gap:15px;min-height:230px;
+    max-height:400px;overflow-y:auto}
+  .msg{max-width:84%;padding:12px 16px;font-size:15px;line-height:1.55;border-radius:16px;
+    animation:pop .3s ease both}
+  .msg.u{align-self:flex-end;background:var(--clay);color:#fff;border-bottom-right-radius:5px;font-weight:500}
+  .msg.b{align-self:flex-start;background:var(--cream-2);color:var(--ink);border-bottom-left-radius:5px}
+  .src{display:inline-flex;align-items:center;gap:7px;margin-top:10px;font-family:var(--mono);font-size:11.5px;
+    color:var(--sage);background:var(--sage-tint);border:1px solid rgba(94,127,85,.25);padding:5px 10px;
+    border-radius:7px}
+  .src.none{color:var(--clay-deep);background:var(--clay-tint);border-color:rgba(190,90,56,.25)}
+  .typing{align-self:flex-start;display:flex;gap:5px;padding:15px 17px;background:var(--cream-2);border-radius:16px;
+    border-bottom-left-radius:5px}
+  .typing span{width:7px;height:7px;border-radius:50%;background:var(--faint);animation:blink 1.2s infinite}
+  .typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
+  .asks{display:flex;flex-wrap:wrap;gap:9px;padding:16px 22px 20px;border-top:1px solid var(--line-2)}
+  .asks .lbl{width:100%;font-size:12px;color:var(--faint);font-family:var(--mono);letter-spacing:.08em;
+    text-transform:uppercase;margin-bottom:2px}
+  .ask{font-size:13.5px;color:var(--ink);background:var(--cream);border:1px solid var(--line);padding:8px 14px;
+    border-radius:100px;cursor:pointer;font-family:var(--sans);transition:.16s}
+  .ask:hover{border-color:var(--clay);color:var(--clay-deep)}
+  .ask.trap{border-style:dashed}
+  .ask:disabled{opacity:.38;cursor:default}
+  @keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  @keyframes blink{0%,60%,100%{opacity:.25}30%{opacity:1}}
+  .demo-hint{text-align:center;font-size:13.5px;color:var(--faint);margin-top:18px;max-width:52ch;
+    margin-left:auto;margin-right:auto}
+  .demo-hint b{color:var(--clay-deep);font-weight:600}
+
+  /* value */
+  .band{background:var(--cream-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .value{padding:66px 0}
+  .value h2{font-size:clamp(26px,3.6vw,36px);text-align:center;margin-bottom:8px}
+  .value .say{text-align:center;color:var(--ink-2);max-width:54ch;margin:0 auto 40px;font-size:17px}
+  .vgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+  .v{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px}
+  .v .ic{width:40px;height:40px;border-radius:11px;background:var(--clay-tint);display:grid;place-items:center;
+    font-size:20px;margin-bottom:14px}
+  .v h3{font-family:var(--sans);font-size:17px;font-weight:650;margin-bottom:6px}
+  .v p{font-size:14.5px;color:var(--ink-2)}
+
+  /* transform */
+  .flow{padding:70px 0;text-align:center}
+  .flow h2{font-size:clamp(24px,3.4vw,33px);margin-bottom:36px}
+  .steps{display:flex;align-items:stretch;justify-content:center;gap:14px;flex-wrap:wrap}
+  .fstep{flex:1;min-width:190px;max-width:260px;background:var(--card);border:1px solid var(--line);
+    border-radius:16px;padding:24px 20px;text-align:left}
+  .fstep .k{font-family:var(--mono);font-size:12px;color:var(--clay);letter-spacing:.1em}
+  .fstep h3{font-family:var(--sans);font-size:16.5px;font-weight:650;margin:8px 0 6px}
+  .fstep p{font-size:14px;color:var(--ink-2)}
+  .arrowr{align-self:center;color:var(--faint);font-size:22px}
+
+  /* trust + cta */
+  .trust{padding:64px 0;text-align:center}
+  .trust .q{font-family:var(--serif);font-size:clamp(22px,3vw,30px);max-width:22ch;margin:0 auto 18px;
+    line-height:1.28}
+  .trust .who{font-family:var(--mono);font-size:13px;color:var(--ink-2);letter-spacing:.04em}
+  .cta{text-align:center;padding:20px 0 90px}
+  .cta h2{font-size:clamp(28px,4vw,42px);margin-bottom:14px}
+  .cta p{color:var(--ink-2);font-size:17px;margin-bottom:28px}
+  .btn{display:inline-flex;align-items:center;gap:11px;background:var(--clay);color:#fff;font-weight:600;
+    font-size:17px;padding:16px 30px;border-radius:100px;text-decoration:none;transition:.18s;
+    box-shadow:0 18px 40px -18px var(--clay)}
+  .btn:hover{background:var(--clay-deep);transform:translateY(-2px)}
+  footer{text-align:center;padding:30px 0 50px;color:var(--faint);font-size:12.5px;
+    border-top:1px solid var(--line)}
+
+  /* video/recording mode (?vid): compact down to just the branded demo */
+  body.vid .hero{padding:30px 0 4px}
+  body.vid .hero .sub,body.vid .hero .cue{display:none}
+  body.vid .hero h1{font-size:clamp(26px,3.4vw,34px)}
+  body.vid .demo-sec{padding:12px 0 22px}
+  body.vid .thread{min-height:392px;max-height:392px}
+  body.vid .demo-hint,body.vid .band,body.vid .flow,body.vid .trust,body.vid .cta,body.vid footer{display:none}
+  @media(max-width:720px){.vgrid{grid-template-columns:1fr}.arrowr{transform:rotate(90deg)}}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}
+    .fade{opacity:1;transform:none}}
+</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow fade">Custom AI chatbots · trained on your business</div>
+    <h1 class="fade d1">Your business already knows<br>the answers. Now your <span class="u">website</span> can too.</h1>
+    <p class="sub fade d2">A custom AI assistant, trained on your real documents — so it answers customers
+      accurately, shows its sources, and says <em>"I don't know"</em> instead of making things up. Pick a
+      business like yours below and talk to one.</p>
+    <div class="cue fade d3"><span class="arrow">↓</span> try it — it's real</div>
+  </div>
+</header>
+
+<section class="demo-sec">
+  <div class="wrap">
+    <p class="picker-lbl fade">First, which sounds like <b>you</b>?</p>
+    <div class="picker" id="picker"></div>
+
+    <div class="chat">
+      <div class="chat-top">
+        <div class="ava" id="ava">🍝</div>
+        <div>
+          <div class="nm" id="nm">Nonna's Kitchen</div>
+          <div class="role" id="role">AI assistant · trained on 4 docs</div>
+        </div>
+        <div class="status"><i></i>online</div>
+      </div>
+      <div class="thread" id="thread"></div>
+      <div class="asks" id="asks"></div>
+    </div>
+    <p class="demo-hint">Notice the last question in each — the bot <b>won't guess</b> when the answer isn't
+      in the docs. That one habit is what keeps a real business from getting embarrassed.</p>
+  </div>
+</section>
+
+<div class="band">
+  <section class="value wrap">
+    <h2>Why owners actually trust it</h2>
+    <p class="say">A chatbot that makes things up is worse than none at all. This one is built the opposite way.</p>
+    <div class="vgrid">
+      <div class="v"><div class="ic">📚</div><h3>Trained on your real data</h3>
+        <p>Your docs, FAQs, site, policies — ingested so every answer comes from your actual business, not the internet's guess.</p></div>
+      <div class="v"><div class="ic">📎</div><h3>Every answer has a receipt</h3>
+        <p>It can cite the exact source it pulled from, so you — and your customer — can trust what it said.</p></div>
+      <div class="v"><div class="ic">🛑</div><h3>It won't make things up</h3>
+        <p>No answer in your docs? It says so and offers a human, instead of inventing a policy that costs you a refund or a review.</p></div>
+      <div class="v"><div class="ic">🌙</div><h3>Open at 3am, captures the lead</h3>
+        <p>It answers instantly around the clock and can grab a name and email — so a late-night visitor becomes a customer, not a bounce.</p></div>
+    </div>
+  </section>
+</div>
+
+<section class="flow wrap">
+  <h2>From a pile of docs to one calm assistant</h2>
+  <div class="steps">
+    <div class="fstep"><div class="k">01</div><h3>You send your stuff</h3><p>Docs, FAQ, website, a catalog — whatever your customers ask about. Links or files, that's it.</p></div>
+    <div class="arrowr">→</div>
+    <div class="fstep"><div class="k">02</div><h3>I build & ground it</h3><p>I train the assistant on your content with RAG, wire in your brand voice, and set the "don't guess" guardrail.</p></div>
+    <div class="arrowr">→</div>
+    <div class="fstep"><div class="k">03</div><h3>You embed it</h3><p>One snippet on your site (or Notion/app). It's live, answering, and citing — usually in days.</p></div>
+  </div>
+</section>
+
+<div class="band">
+  <section class="trust wrap">
+    <p class="eyebrow" style="margin-bottom:18px">Who builds it</p>
+    <p class="q">"Most sellers glue a template together. I build autonomous AI systems for a living — you get the version that holds up."</p>
+    <p class="who">— Sarjan · engineer who ships real AI agents, not wrappers</p>
+  </section>
+</div>
+
+<section class="cta wrap">
+  <h2>Give your business a brain.</h2>
+  <p>Tell me your use case and I'll tell you exactly what you need — free.</p>
+  <a class="btn" href="https://www.fiverr.com/sarjanpatel351" target="_blank" rel="noopener">Get yours on Fiverr →</a>
+</section>
+
+<footer>Custom AI chatbots trained on your business data · RAG · cited answers · no hallucinations</footer>
+
+<script>
+(function(){
+  var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var BIZ={
+    restaurant:{name:"Nonna's Kitchen",emoji:"🍝",role:"AI assistant · trained on 4 docs",
+      greet:"Ciao! 👋 Ask me about our hours, the menu, or booking a table.",
+      qa:[
+        {q:"Are you open on Sundays?",a:"Yes — we're open Sundays 12–9pm. We're closed Mondays to give the kitchen a rest.",src:"hours.txt"},
+        {q:"Do you have vegan options?",a:"We do! The roasted-veg orzo and mushroom risotto are fully vegan, and most pastas can be made vegan — just ask your server.",src:"menu.pdf"},
+        {q:"Can I book a table for 10?",a:"Absolutely — parties of 8+ go through our events line so we can seat you properly. Want to leave your date and I'll pass it along?",src:"reservations.md"},
+        {q:"Do you have a Michelin star?",a:"There's nothing about awards in Nonna's info, so I won't guess — want me to pass that to the team?",src:null}
+      ]},
+    plants:{name:"Verde Plant Co.",emoji:"🌿",role:"AI assistant · trained on 3 docs",
+      greet:"Hi! 🌱 Ask me about shipping, plant care, or our guarantee.",
+      qa:[
+        {q:"Do you ship to Canada?",a:"Yes! Across the US and Canada, tracked, 5–8 business days. Free over $75, otherwise a $12 flat rate.",src:"shipping.pdf"},
+        {q:"How do I care for a fiddle leaf fig?",a:"Bright, indirect light; water only when the top 2–3cm of soil is dry (about weekly); and don't move it around — figs hate change.",src:"care-guide.pdf"},
+        {q:"What's your return policy?",a:"Every plant has a 30-day guarantee — if it arrives damaged or declines, send a photo and we'll replace or refund, no need to ship it back.",src:"returns.md"},
+        {q:"Do you offer wholesale pricing?",a:"I don't have wholesale details in Verde's docs, so I'm not certain — I'd love to connect you with the team. Want to leave your email?",src:null}
+      ]},
+    dental:{name:"Bright Smile Dental",emoji:"🦷",role:"AI assistant · trained on 3 docs",
+      greet:"Hello! I can help with appointments, services, and insurance questions.",
+      qa:[
+        {q:"Do you take walk-ins?",a:"For emergencies, yes — call ahead and we'll try to fit you in same-day. Routine visits are by appointment.",src:"patient-info.pdf"},
+        {q:"Is whitening covered by insurance?",a:"Whitening is cosmetic, so most plans don't cover it — but we offer it with a payment plan. Share your provider and I can check your specifics.",src:"services.pdf"},
+        {q:"How early should I arrive for a first visit?",a:"About 15 minutes early, so we can sort your paperwork and history before your exam.",src:"patient-info.pdf"},
+        {q:"Why does my tooth hurt?",a:"I can't diagnose or give medical advice — but I can book you the first available exam so a dentist can take a look. Want me to check tomorrow?",src:null}
+      ]},
+    agency:{name:"Northwind Studio",emoji:"💼",role:"AI assistant · trained on 4 docs",
+      greet:"Hey! Ask about our services, pricing, or how we work.",
+      qa:[
+        {q:"How much is a landing page?",a:"Our landing-page package starts at $2,400 and ships in about 2 weeks. Want the full scope breakdown?",src:"pricing.pdf"},
+        {q:"Do you work with startups?",a:"Yes — roughly half our clients are seed to Series-A startups, and we run a discounted MVP sprint for early teams.",src:"about.md"},
+        {q:"What's your turnaround?",a:"Most projects run 2–4 weeks depending on scope; we'll give you a firm timeline after a short discovery call.",src:"process.pdf"},
+        {q:"Do you guarantee first-page Google rankings?",a:"That's not something we promise — no honest agency can guarantee rankings. I can share what we actually do for SEO, though.",src:null}
+      ]},
+    shop:{name:"Loom & Co.",emoji:"🛍️",role:"AI assistant · trained on 4 docs",
+      greet:"Hi there! Ask me about orders, shipping, or returns.",
+      qa:[
+        {q:"Where's my order?",a:"Share your order number and I'll pull the tracking. Most orders ship in 1–2 days with tracked delivery.",src:"shipping.md"},
+        {q:"Do you offer gift wrapping?",a:"We do! Add it at checkout for $6 and you can include a personal note.",src:"faq.md"},
+        {q:"What's your return window?",a:"30 days on unworn items with tags — we email you a prepaid label, and refunds land in 3–5 business days.",src:"returns.md"},
+        {q:"Is this in stock in my size?",a:"I can't see live inventory in these docs, so I won't guess — check the product page's size selector, or leave your email and we'll alert you.",src:null}
+      ]}
+    };
+  var ORDER=["restaurant","plants","dental","agency","shop"];
+  var LABEL={restaurant:"Restaurant",plants:"Plant shop",dental:"Clinic",agency:"Agency",shop:"Online store"};
+  var picker=document.getElementById('picker'),thread=document.getElementById('thread'),
+      asks=document.getElementById('asks'),ava=document.getElementById('ava'),
+      nm=document.getElementById('nm'),role=document.getElementById('role');
+  var cur=null;
+
+  function esc(s){return s.replace(/</g,'&lt;');}
+  function bubble(cls,html){var d=document.createElement('div');d.className='msg '+cls;d.innerHTML=html;
+    thread.appendChild(d);thread.scrollTop=thread.scrollHeight;return d;}
+  function answer(item,btn){
+    btn.disabled=true;
+    bubble('u',esc(item.q));
+    var t=document.createElement('div');t.className='typing';t.innerHTML='<span></span><span></span><span></span>';
+    thread.appendChild(t);thread.scrollTop=thread.scrollHeight;
+    setTimeout(function(){
+      t.remove();
+      var badge=item.src?'<div class="src">📎 Source: '+item.src+'</div>'
+        :'<div class="src none">🛑 Not in the docs — answered honestly, didn’t invent one</div>';
+      bubble('b',esc(item.a)+badge);
+    }, reduce?90:720);
+  }
+  function load(key){
+    cur=key; var b=BIZ[key];
+    ava.textContent=b.emoji; nm.textContent=b.name; role.textContent=b.role;
+    Array.prototype.forEach.call(picker.children,function(c){c.classList.toggle('on',c.dataset.k===key);});
+    thread.innerHTML=''; bubble('b',esc(b.greet));
+    asks.innerHTML='<div class="lbl">Tap a question customers really ask</div>';
+    b.qa.forEach(function(item,i){
+      var a=document.createElement('button');a.className='ask'+(item.src?'':' trap');a.type='button';
+      a.textContent=item.q; a.addEventListener('click',function(){answer(item,a);});
+      asks.appendChild(a);
+    });
+    if(/[?&]shot/.test(location.search)){          // still-image mode: pre-fill one cited exchange
+      var q=b.qa[1]; bubble('u',esc(q.q));
+      bubble('b',esc(q.a)+'<div class="src">📎 Source: '+q.src+'</div>');
+    }
+  }
+  ORDER.forEach(function(key){
+    var b=BIZ[key];var chip=document.createElement('button');chip.className='biz';chip.type='button';
+    chip.dataset.k=key;chip.innerHTML='<span class="e">'+b.emoji+'</span>'+LABEL[key];
+    chip.addEventListener('click',function(){load(key);});picker.appendChild(chip);
+  });
+  var P=location.search;
+  if(/[?&]vid/.test(P)) document.body.classList.add('vid');
+  load('restaurant');
+  if(/[?&]auto/.test(P)){                    // scripted demo for the recorded video
+    var A=function(i){var b=asks.querySelectorAll('.ask');if(b[i])b[i].click();};
+    setTimeout(function(){A(1);},1500);      // restaurant: vegan (cited)
+    setTimeout(function(){A(3);},5100);      // restaurant: michelin (won't guess)
+    setTimeout(function(){load('plants');},8700);
+    setTimeout(function(){A(0);},10000);     // plants: ships to Canada (cited)
+    setTimeout(function(){load('dental');},13600);
+    setTimeout(function(){A(3);},14900);     // clinic: tooth pain (won't guess)
+  }
+})();
+</script>
